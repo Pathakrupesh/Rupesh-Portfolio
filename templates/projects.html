@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <!-- Page Header -->
+        <div class="mb-5">
+            <span class="badge bg-primary-subtle text-primary mb-2 px-3 py-1">Code &amp; Architecture</span>
+            <h1 class="display-5 fw-bold">Software Projects</h1>
+            <p class="text-secondary lead col-lg-8">
+                Practical applications built to solve problems, explore frameworks, and apply Computer Science concepts.
+            </p>
+        </div>
+
+        <!-- Interactive Category Filters (Client-Side + Server-Side Friendly) -->
+        <div class="d-flex flex-wrap gap-2 mb-5 filter-container" id="projectFilterContainer">
+            <button type="button" class="btn btn-filter active" data-filter="all">
+                <i class="bi bi-grid me-1"></i> All Projects
+            </button>
+            <button type="button" class="btn btn-filter" data-filter="web">
+                <i class="bi bi-globe me-1"></i> Web
+            </button>
+            <button type="button" class="btn btn-filter" data-filter="python">
+                <i class="bi bi-filetype-py me-1"></i> Python
+            </button>
+            <button type="button" class="btn btn-filter" data-filter="data">
+                <i class="bi bi-bar-chart-steps me-1"></i> Data
+            </button>
+            <button type="button" class="btn btn-filter" data-filter="ai">
+                <i class="bi bi-cpu me-1"></i> AI &amp; ML
+            </button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="row g-4" id="projectsGrid">
+            {% for project in projects %}
+            <div class="col-lg-4 col-md-6 project-item" data-category="{{ project.category|lower }}">
+                <div class="card project-card h-100 border rounded-4 overflow-hidden d-flex flex-column">
+                    <!-- Card Top Banner -->
+                    <div class="project-card-image position-relative">
+                        <div class="project-image-placeholder d-flex align-items-center justify-content-center p-4">
+                            <i class="bi {% if project.category == 'Web' %}bi-window-stack{% elif project.category == 'AI' %}bi-cpu-fill{% elif project.category == 'Data' %}bi-graph-up-arrow{% else %}bi-terminal-fill{% endif %} fs-1 text-primary opacity-75"></i>
+                        </div>
+                        <span class="badge bg-dark-subtle border border-secondary-subtle text-light position-absolute top-0 end-0 m-3">
+                            {{ project.get_category_display }}
+                        </span>
+                        {% if project.featured %}
+                        <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-3 fw-bold">
+                            <i class="bi bi-star-fill me-1"></i> Featured
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body d-flex flex-column p-4 flex-grow-1">
+                        <h2 class="h5 fw-bold card-title mb-2">{{ project.title }}</h2>
+                        <p class="card-text text-secondary small mb-3 flex-grow-1">
+                            {{ project.short_description }}
+                        </p>
+
+                        <!-- Technology Badges -->
+                        <div class="d-flex flex-wrap gap-1 mb-4">
+                            {% for tech in project.tech_list %}
+                                <span class="badge bg-secondary-subtle text-secondary small">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Card Action Buttons -->
+                        <div class="d-flex align-items-center justify-content-between pt-3 border-top mt-auto">
+                            <a href="{% url 'project_detail' project.slug %}" class="btn btn-sm btn-primary-custom">
+                                View Details <i class="bi bi-arrow-up-right ms-1"></i>
+                            </a>
+                            <div class="d-flex gap-2">
+                                {% if project.github_url %}
+                                <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-custom" title="GitHub Repository">
+                                    <i class="bi bi-github"></i>
+                                </a>
+                                {% endif %}
+                                {% if project.live_url %}
+                                <a href="{{ project.live_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-custom" title="Live Demo">
+                                    <i class="bi bi-box-arrow-up-right"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="p-5 border rounded-4 bg-subtle-section">
+                    <i class="bi bi-folder-x fs-1 text-secondary mb-3 d-block"></i>
+                    <h3 class="h5 fw-bold">No Projects Found</h3>
+                    <p class="text-secondary small mb-3">No projects have been added yet or none match your criteria.</p>
+                    <a href="{% url 'projects' %}" class="btn btn-sm btn-outline-custom">Reset Filters</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Empty Filter State (Shown via JS if no item matches) -->
+        <div id="noFilterMatch" class="d-none text-center py-5">
+            <div class="p-5 border rounded-4 bg-subtle-section">
+                <i class="bi bi-funnel text-secondary fs-1 mb-3 d-block"></i>
+                <h3 class="h5 fw-bold">No projects match this category</h3>
+                <p class="text-secondary small mb-0">Try selecting another filter above to browse other projects.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

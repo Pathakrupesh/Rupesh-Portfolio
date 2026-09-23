@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <!-- Resume Header -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-5 pb-3 border-bottom">
+            <div>
+                <span class="badge bg-primary-subtle text-primary mb-2 px-3 py-1">Curriculum Vitae</span>
+                <h1 class="display-5 fw-bold mb-1">Resume &amp; Qualifications</h1>
+                <p class="text-secondary mb-0">Academic background, technical competencies, and professional credentials.</p>
+            </div>
+
+            <!-- Resume Download Button with Graceful Fallback -->
+            <div class="mt-3 mt-md-0">
+                {% if has_resume %}
+                <a href="{{ resume_url }}" download class="btn btn-primary-custom px-4 py-2-5 shadow-sm">
+                    <i class="bi bi-file-earmark-pdf-fill me-2"></i> Download Resume (PDF)
+                </a>
+                {% else %}
+                <button type="button" class="btn btn-primary-custom px-4 py-2-5" data-bs-toggle="modal" data-bs-target="#resumeModal">
+                    <i class="bi bi-file-earmark-pdf me-2"></i> Download Resume (PDF)
+                </button>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Resume Content Card -->
+        <div class="card border rounded-4 p-4 p-lg-5 mb-5 bg-subtle-section shadow-sm">
+            <!-- Header Bio -->
+            <div class="row pb-4 mb-4 border-bottom gy-3">
+                <div class="col-md-8">
+                    <h2 class="h3 fw-bold mb-1">{{ site_settings.name|default:"Rupesh Pathak" }}</h2>
+                    <div class="text-primary fw-semibold mb-2">{{ site_settings.title|default:"Computer Science Student | Aspiring Software & AI Engineer" }}</div>
+                    <p class="text-secondary small mb-0">
+                        {{ site_settings.short_bio }}
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end text-secondary small d-flex flex-column gap-1">
+                    <div><i class="bi bi-geo-alt me-1"></i> {{ site_settings.location|default:"Kathmandu, Nepal" }}</div>
+                    <div><i class="bi bi-envelope me-1"></i> {{ site_settings.email|default:"pathakrupesh666@gmail.com" }}</div>
+                    <div><i class="bi bi-github me-1"></i> {{ site_settings.github_url|default:"github.com/rupesh" }}</div>
+                </div>
+            </div>
+
+            <!-- Education Section -->
+            <div class="mb-5">
+                <h3 class="h5 fw-bold text-uppercase text-primary letter-spacing mb-3">
+                    <i class="bi bi-mortarboard-fill me-2"></i> Education
+                </h3>
+                {% for edu in education_list %}
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h4 class="h6 fw-bold mb-1">{{ edu.degree }}</h4>
+                        <span class="badge bg-secondary-subtle text-secondary">{{ edu.start_year }} — {{ edu.end_year }}</span>
+                    </div>
+                    <div class="text-secondary-subtle small fw-medium mb-2">{{ edu.institution }} • {{ edu.location }}</div>
+                    <p class="text-secondary small mb-0">{{ edu.description }}</p>
+                </div>
+                {% empty %}
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h4 class="h6 fw-bold mb-1">Bachelor's in Computer Science / Information Technology</h4>
+                        <span class="badge bg-secondary-subtle text-secondary">2022 — Present</span>
+                    </div>
+                    <div class="text-secondary-subtle small fw-medium mb-2">St. Xavier's College, Kathmandu • Nepal</div>
+                    <p class="text-secondary small mb-0">Undergraduate student focusing on algorithms, backend development, and AI methodologies.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Relevant Coursework -->
+            <div class="mb-5">
+                <h3 class="h5 fw-bold text-uppercase text-primary letter-spacing mb-3">
+                    <i class="bi bi-book-fill me-2"></i> Relevant Academic Coursework
+                </h3>
+                <div class="row g-2">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="p-2 border rounded-2 small text-secondary">
+                            <i class="bi bi-check2 text-primary me-1"></i> Data Structures &amp; Algorithms
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="p-2 border rounded-2 small text-secondary">
+                            <i class="bi bi-check2 text-primary me-1"></i> Database Management Systems (SQL)
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="p-2 border rounded-2 small text-secondary">
+                            <i class="bi bi-check2 text-primary me-1"></i> Object-Oriented Programming
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="p-2 border rounded-2 small text-secondary">
+                            <i class="bi bi-check2 text-primary me-1"></i> Operating Systems &amp; Concurrency
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="p-2 border rounded-2 small text-secondary">
+                            <i class="bi bi-check2 text-primary me-1"></i> Software Engineering Principles
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="p-2 border rounded-2 small text-secondary">
+                            <i class="bi bi-check2 text-primary me-1"></i> Artificial Intelligence Fundamentals
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Skills Matrix -->
+            <div class="mb-5">
+                <h3 class="h5 fw-bold text-uppercase text-primary letter-spacing mb-3">
+                    <i class="bi bi-code-slash me-2"></i> Technical Competencies
+                </h3>
+                <div class="row gy-3">
+                    {% for category, skills in grouped_skills.items %}
+                    <div class="col-md-6">
+                        <h4 class="h6 fw-bold mb-2">{{ category }}</h4>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for skill in skills %}
+                            <span class="badge bg-secondary-subtle text-secondary py-1 px-2">{{ skill.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Certifications Section -->
+            <div>
+                <h3 class="h5 fw-bold text-uppercase text-primary letter-spacing mb-3">
+                    <i class="bi bi-patch-check-fill me-2"></i> Certifications &amp; Learning Credentials
+                </h3>
+                <div class="row g-3">
+                    {% for cert in certifications %}
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded-3 h-100">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <h4 class="h6 fw-bold mb-1">{{ cert.name }}</h4>
+                                {% if cert.is_sample %}
+                                <span class="badge bg-info-subtle text-info small">Example</span>
+                                {% endif %}
+                            </div>
+                            <div class="text-secondary small mb-2">{{ cert.organization }} • {{ cert.issue_date }}</div>
+                            {% if cert.credential_url %}
+                            <a href="{{ cert.credential_url }}" target="_blank" rel="noopener noreferrer" class="small text-primary text-decoration-none">
+                                View Credential <i class="bi bi-box-arrow-up-right ms-1"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-secondary small">
+                        <p class="mb-0">Certifications are currently being pursued and will be posted upon verification.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Resume Fallback Modal if PDF file has not yet been placed in media/resume/ -->
+<div class="modal fade" id="resumeModal" tabindex="-1" aria-labelledby="resumeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border">
+            <div class="modal-header border-bottom">
+                <h5 class="modal-title fw-bold" id="resumeModalLabel">
+                    <i class="bi bi-info-circle text-primary me-2"></i> Resume PDF Notice
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-secondary small">
+                <p>
+                    The official PDF resume file has not yet been uploaded to the <code>media/resume/</code> folder.
+                </p>
+                <div class="p-3 bg-dark-subtle rounded-3 font-monospace mb-3">
+                    1. Upload your resume via <strong>Django Admin &gt; Site Settings</strong><br>
+                    2. OR place your PDF file into: <code>media/resume/rupesh_resume.pdf</code>
+                </div>
+                <p class="mb-0">
+                    In the meantime, feel free to review the complete interactive qualifications listed directly on this page or contact Rupesh directly via email.
+                </p>
+            </div>
+            <div class="modal-footer border-top">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                <a href="{% url 'contact' %}" class="btn btn-primary-custom btn-sm">Contact Me Directly</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% if page_title %}{{ page_title }} — {% endif %}{{ site_settings.name|default:"Rupesh Pathak" }} | CS Student &amp; Aspiring Software / AI Engineer</title>
+    
+    <!-- SEO & Social Meta Tags -->
+    <meta name="description" content="Portfolio of Rupesh Pathak, Computer Science Student at St. Xavier's College, Kathmandu. Aspiring Software and AI Engineer specializing in Python, Django, and modern web applications.">
+    <meta name="keywords" content="Rupesh Pathak, Computer Science, Software Engineer, AI Engineer, Django, Python, Portfolio, Web Development, St. Xavier's College Kathmandu">
+    <meta name="author" content="{{ site_settings.name|default:'Rupesh Pathak' }}">
+    <meta property="og:title" content="{% if page_title %}{{ page_title }} — {% endif %}{{ site_settings.name|default:'Rupesh Pathak' }} Portfolio">
+    <meta property="og:description" content="Computer Science Student | Aspiring Software & AI Engineer. Explore projects, technical skills, and experience.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5.3 CSS & Bootstrap Icons CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Custom Modern Dark Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230284c7%22/><text y=%22.9em%22 x=%22.15em%22 font-size=%2280%22 font-weight=%22bold%22 fill=%22white%22>R</text></svg>">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Navigation Bar -->
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg border-bottom py-3 custom-navbar" id="mainNavbar">
+            <div class="container">
+                <!-- Brand Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-gradient" href="{% url 'home' %}">
+                    <span class="brand-badge">RP</span>
+                    <span>{{ site_settings.name|default:"Rupesh Pathak" }}</span>
+                </a>
+
+                <!-- Theme Toggle Button (Mobile & Desktop) & Mobile Hamburger -->
+                <div class="d-flex align-items-center gap-2 order-lg-3">
+                    <button class="btn btn-sm btn-outline-custom theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Toggle theme" title="Toggle Light / Dark Mode">
+                        <i class="bi bi-sun-fill theme-icon-light d-none"></i>
+                        <i class="bi bi-moon-stars-fill theme-icon-dark"></i>
+                    </button>
+
+                    <button class="navbar-toggler border-0 shadow-none px-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <!-- Nav Links -->
+                <div class="collapse navbar-collapse order-lg-2" id="navbarContent">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-medium gap-lg-1">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+                                <i class="bi bi-house-door me-1 d-lg-none"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">
+                                <i class="bi bi-person me-1 d-lg-none"></i> About
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'skills' %}active{% endif %}" href="{% url 'skills' %}">
+                                <i class="bi bi-cpu me-1 d-lg-none"></i> Skills
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'projects' or request.resolver_match.url_name == 'project_detail' %}active{% endif %}" href="{% url 'projects' %}">
+                                <i class="bi bi-folder me-1 d-lg-none"></i> Projects
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'resume' %}active{% endif %}" href="{% url 'resume' %}">
+                                <i class="bi bi-file-earmark-person me-1 d-lg-none"></i> Resume
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}">
+                                <i class="bi bi-envelope me-1 d-lg-none"></i> Contact
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div class="d-none d-lg-flex align-items-center gap-2">
+                        <a href="{% url 'contact' %}" class="btn btn-primary-custom btn-sm px-3 py-2">
+                            <i class="bi bi-send me-1"></i> Get in Touch
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Django Messages (Alerts) Container -->
+    <div class="container mt-3">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show shadow-sm border-0 d-flex align-items-center" role="alert">
+                    <i class="bi {% if message.tags == 'success' %}bi-check-circle-fill text-success{% elif message.tags == 'danger' %}bi-exclamation-octagon-fill text-danger{% else %}bi-info-circle-fill text-info{% endif %} me-2 fs-5"></i>
+                    <div>{{ message }}</div>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow-1">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Professional Footer -->
+    <footer class="footer border-top mt-auto py-5 custom-footer">
+        <div class="container">
+            <div class="row gy-4 align-items-center">
+                <div class="col-lg-5 text-center text-lg-start">
+                    <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2 mb-2">
+                        <span class="brand-badge sm">RP</span>
+                        <h5 class="mb-0 fw-bold">{{ site_settings.name|default:"Rupesh Pathak" }}</h5>
+                    </div>
+                    <p class="text-secondary small mb-0">
+                        {{ site_settings.title|default:"Computer Science Student | Aspiring Software & AI Engineer" }}
+                    </p>
+                    <p class="text-secondary-subtle small mt-1 mb-0">
+                        <i class="bi bi-geo-alt me-1"></i> {{ site_settings.location|default:"Kathmandu, Nepal" }} • St. Xavier's College
+                    </p>
+                </div>
+
+                <div class="col-lg-4 text-center">
+                    <div class="d-flex justify-content-center gap-3 footer-links">
+                        <a href="{% url 'home' %}" class="footer-link">Home</a>
+                        <a href="{% url 'about' %}" class="footer-link">About</a>
+                        <a href="{% url 'skills' %}" class="footer-link">Skills</a>
+                        <a href="{% url 'projects' %}" class="footer-link">Projects</a>
+                        <a href="{% url 'resume' %}" class="footer-link">Resume</a>
+                        <a href="{% url 'contact' %}" class="footer-link">Contact</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 text-center text-lg-end">
+                    <div class="d-flex justify-content-center justify-content-lg-end gap-2">
+                        <a href="{{ site_settings.github_url|default:'https://github.com/' }}" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="GitHub Profile" title="GitHub">
+                            <i class="bi bi-github"></i>
+                        </a>
+                        <a href="{{ site_settings.linkedin_url|default:'https://linkedin.com/' }}" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="LinkedIn Profile" title="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        <a href="mailto:{{ site_settings.email|default:'pathakrupesh666@gmail.com' }}" class="social-icon-btn" aria-label="Send Email" title="Email">
+                            <i class="bi bi-envelope-fill"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4 border-secondary opacity-25">
+
+            <div class="row align-items-center text-secondary small">
+                <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                    &copy; {{ current_year }} {{ site_settings.name|default:"Rupesh Pathak" }}. All rights reserved.
+                </div>
+                <div class="col-md-6 text-center text-md-end text-secondary-subtle">
+                    Built with <span class="text-primary fw-medium">Python &amp; Django</span> + Bootstrap 5
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5.3 JS Bundle CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    {% block extra_js %}
+    {% endblock %}
+</body>
+</html>
