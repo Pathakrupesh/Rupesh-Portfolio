@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb small">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-secondary text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'projects' %}" class="text-secondary text-decoration-none">Projects</a></li>
+                <li class="breadcrumb-item active text-primary" aria-current="page">{{ project.title }}</li>
+            </ol>
+        </nav>
+
+        <!-- Project Header -->
+        <div class="mb-5">
+            <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+                <span class="badge bg-primary-subtle text-primary px-3 py-1">{{ project.get_category_display }}</span>
+                {% if project.featured %}
+                <span class="badge bg-warning text-dark fw-bold">
+                    <i class="bi bi-star-fill me-1"></i> Featured Project
+                </span>
+                {% endif %}
+                <span class="text-secondary small ms-auto"><i class="bi bi-calendar3 me-1"></i> Added {{ project.created_at|date:"F Y" }}</span>
+            </div>
+
+            <h1 class="display-5 fw-bold mb-3">{{ project.title }}</h1>
+            <p class="lead text-secondary col-lg-10">
+                {{ project.short_description }}
+            </p>
+
+            <!-- Links Row -->
+            <div class="d-flex flex-wrap gap-3 mt-4">
+                {% if project.github_url %}
+                <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary-custom px-4 py-2">
+                    <i class="bi bi-github me-2"></i> View Source Code
+                </a>
+                {% endif %}
+                {% if project.live_url %}
+                <a href="{{ project.live_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-custom px-4 py-2">
+                    <i class="bi bi-box-arrow-up-right me-2"></i> Live Application Demo
+                </a>
+                {% endif %}
+                <a href="{% url 'projects' %}" class="btn btn-outline-secondary px-3 py-2 ms-auto">
+                    <i class="bi bi-arrow-left me-1"></i> All Projects
+                </a>
+            </div>
+        </div>
+
+        <div class="row g-5">
+            <!-- Left: Description & Features -->
+            <div class="col-lg-8">
+                <!-- Visual Banner Placeholder -->
+                <div class="detail-banner-card rounded-4 border p-5 mb-5 text-center bg-subtle-section">
+                    <i class="bi {% if project.category == 'Web' %}bi-window-stack{% elif project.category == 'AI' %}bi-cpu{% elif project.category == 'Data' %}bi-graph-up-arrow{% else %}bi-terminal{% endif %} display-1 text-primary opacity-50 mb-3 d-block"></i>
+                    <h2 class="h5 text-secondary fw-semibold">{{ project.title }} Architecture &amp; System Design</h2>
+                </div>
+
+                <div class="detail-content mb-5">
+                    <h2 class="h4 fw-bold mb-3">Project Overview</h2>
+                    <div class="text-secondary lh-lg mb-4" style="white-space: pre-line;">
+                        {{ project.full_description }}
+                    </div>
+
+                    {% if project.feature_list %}
+                    <h2 class="h4 fw-bold mb-3 mt-5">Core Features &amp; Capabilities</h2>
+                    <ul class="list-unstyled d-flex flex-column gap-2 text-secondary">
+                        {% for feature in project.feature_list %}
+                        <li class="d-flex align-items-start gap-2">
+                            <i class="bi bi-check-circle-fill text-primary mt-1"></i>
+                            <span>{{ feature }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Right: Meta Information -->
+            <div class="col-lg-4">
+                <div class="card border rounded-4 p-4 sticky-top" style="top: 100px;">
+                    <h3 class="h5 fw-bold mb-3">Technical Specifications</h3>
+
+                    <div class="mb-4">
+                        <label class="text-secondary small fw-semibold text-uppercase d-block mb-2">Technologies Used</label>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for tech in project.tech_list %}
+                            <span class="badge bg-secondary-subtle text-secondary py-1 px-2">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="mb-4 border-top pt-3">
+                        <label class="text-secondary small fw-semibold text-uppercase d-block mb-2">Category</label>
+                        <span class="text-light fw-medium">{{ project.get_category_display }}</span>
+                    </div>
+
+                    <div class="border-top pt-3">
+                        <label class="text-secondary small fw-semibold text-uppercase d-block mb-2">Repository &amp; Deployment</label>
+                        <div class="d-flex flex-column gap-2 small">
+                            {% if project.github_url %}
+                            <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="text-secondary text-decoration-none text-truncate d-flex align-items-center gap-2">
+                                <i class="bi bi-github text-primary"></i> <span class="text-truncate">{{ project.github_url }}</span>
+                            </a>
+                            {% endif %}
+                            {% if project.live_url %}
+                            <a href="{{ project.live_url }}" target="_blank" rel="noopener noreferrer" class="text-secondary text-decoration-none text-truncate d-flex align-items-center gap-2">
+                                <i class="bi bi-link-45deg text-primary"></i> <span class="text-truncate">{{ project.live_url }}</span>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if related_projects %}
+        <!-- Related Projects Section -->
+        <div class="mt-5 pt-5 border-top">
+            <h2 class="h4 fw-bold mb-4">Other Projects in {{ project.get_category_display }}</h2>
+            <div class="row g-4">
+                {% for related in related_projects %}
+                <div class="col-md-6">
+                    <div class="card p-4 border rounded-4 h-100">
+                        <h3 class="h5 fw-bold mb-2">{{ related.title }}</h3>
+                        <p class="text-secondary small mb-3">{{ related.short_description }}</p>
+                        <a href="{% url 'project_detail' related.slug %}" class="btn btn-sm btn-outline-custom align-self-start mt-auto">
+                            View Details <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

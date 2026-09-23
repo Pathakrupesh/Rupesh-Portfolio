@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <!-- Page Header -->
+        <div class="mb-5">
+            <span class="badge bg-primary-subtle text-primary mb-2 px-3 py-1">Capabilities</span>
+            <h1 class="display-5 fw-bold">Technical Skills</h1>
+            <p class="text-secondary lead col-lg-8">
+                A structured overview of the languages, frameworks, libraries, and developer tools I work with.
+            </p>
+        </div>
+
+        <!-- Skills Grid -->
+        <div class="row g-4">
+            {% for category, skills in grouped_skills.items %}
+            <div class="col-lg-6">
+                <div class="card h-100 border rounded-4 p-4">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <div class="icon-bubble sm text-primary">
+                            <i class="bi {% if category == 'Programming' %}bi-terminal-fill{% elif category == 'Web Development' %}bi-window-stack{% elif category == 'Data & AI' %}bi-cpu-fill{% else %}bi-tools{% endif %} fs-4"></i>
+                        </div>
+                        <h2 class="h4 fw-bold mb-0">{{ category }}</h2>
+                    </div>
+
+                    <div class="row g-3">
+                        {% for skill in skills %}
+                        <div class="col-sm-6">
+                            <div class="skill-item-card p-3 rounded-3 border d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi {{ skill.icon|default:'bi-check2' }} text-primary fs-5"></i>
+                                    <span class="fw-semibold small">{{ skill.name }}</span>
+                                </div>
+                                <span class="badge bg-secondary-subtle text-secondary small">{{ skill.proficiency }}</span>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-12 text-secondary small">
+                            No skills added in this category yet.
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Note on Skills -->
+        <div class="mt-5 p-4 rounded-4 border bg-subtle-section d-flex align-items-start gap-3">
+            <i class="bi bi-info-circle text-primary fs-4 mt-1"></i>
+            <div>
+                <h3 class="h6 fw-bold mb-1">Philosophy on Technical Mastery</h3>
+                <p class="text-secondary small mb-0">
+                    As a computer science student, I focus on strong fundamentals—understanding data structures, memory models, network layers, and database query costs. These fundamentals enable me to rapidly adopt new frameworks and programming paradigms as industry needs evolve.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

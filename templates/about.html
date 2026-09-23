@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <!-- Page Header -->
+        <div class="mb-5">
+            <span class="badge bg-primary-subtle text-primary mb-2 px-3 py-1">Profile Overview</span>
+            <h1 class="display-5 fw-bold">About Me</h1>
+            <p class="text-secondary lead col-lg-8">
+                Computer Science student, enthusiastic builder, and aspiring engineer passionate about writing clean software and exploring artificial intelligence.
+            </p>
+        </div>
+
+        <div class="row g-5">
+            <!-- Left: Personal Story -->
+            <div class="col-lg-7">
+                <div class="about-card p-4 p-md-5 rounded-4 border bg-subtle-section mb-4">
+                    <h2 class="h4 fw-bold mb-3">Who I Am</h2>
+                    <p class="text-secondary">
+                        {{ site_settings.about_full|default:"I am an undergraduate Computer Science student at St. Xavier's College, Kathmandu. My primary passions lie at the intersection of modern software engineering, web architectures, and applied artificial intelligence. I focus on writing clean, maintainable code, building robust backend systems, and exploring machine learning workflows to solve real-world problems." }}
+                    </p>
+                    <p class="text-secondary">
+                        I believe that building real software is the most effective way to deepen engineering intuition. From designing relational database schemas in PostgreSQL to developing structured web applications with Django and experimenting with data science pipelines, I actively seek out challenging projects that stretch my technical capabilities.
+                    </p>
+                    <p class="text-secondary mb-0">
+                        Outside of coursework and programming, I am continuously learning modern toolchains, following advances in machine learning, and engaging with the global developer community.
+                    </p>
+                </div>
+
+                <!-- Career Goals -->
+                <div class="p-4 rounded-4 border">
+                    <h3 class="h5 fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-compass text-primary"></i> Career Interests &amp; Aspirations
+                    </h3>
+                    <ul class="list-unstyled text-secondary mb-0 d-flex flex-column gap-2 small">
+                        <li class="d-flex align-items-start gap-2">
+                            <i class="bi bi-check-circle-fill text-primary mt-1"></i>
+                            <span><strong>Software Engineering Internships:</strong> Seeking opportunities to work on scalable backend systems, web platforms, and collaborative teams.</span>
+                        </li>
+                        <li class="d-flex align-items-start gap-2">
+                            <i class="bi bi-check-circle-fill text-primary mt-1"></i>
+                            <span><strong>Data Science &amp; Machine Learning:</strong> Interested in predictive modeling, analytics pipelines, and integrating intelligent models into user-facing apps.</span>
+                        </li>
+                        <li class="d-flex align-items-start gap-2">
+                            <i class="bi bi-check-circle-fill text-primary mt-1"></i>
+                            <span><strong>Open Source &amp; Community:</strong> Excited about contributing to developer tooling and learning from senior software craftsmen.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right: Quick Facts & Education -->
+            <div class="col-lg-5">
+                <!-- Info Card -->
+                <div class="card border rounded-4 p-4 mb-4">
+                    <h3 class="h5 fw-bold mb-3">Quick Facts</h3>
+                    <ul class="list-unstyled text-secondary small d-flex flex-column gap-3 mb-0">
+                        <li class="d-flex justify-content-between border-bottom pb-2">
+                            <span class="text-secondary-subtle">Location:</span>
+                            <span class="fw-medium text-light">{{ site_settings.location|default:"Kathmandu, Nepal" }}</span>
+                        </li>
+                        <li class="d-flex justify-content-between border-bottom pb-2">
+                            <span class="text-secondary-subtle">University / College:</span>
+                            <span class="fw-medium text-light">St. Xavier's College, Kathmandu</span>
+                        </li>
+                        <li class="d-flex justify-content-between border-bottom pb-2">
+                            <span class="text-secondary-subtle">Degree:</span>
+                            <span class="fw-medium text-light">Bachelor's in CS / IT</span>
+                        </li>
+                        <li class="d-flex justify-content-between border-bottom pb-2">
+                            <span class="text-secondary-subtle">Primary Backend:</span>
+                            <span class="fw-medium text-light">Python &amp; Django</span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                            <span class="text-secondary-subtle">Availability:</span>
+                            <span class="badge bg-success-subtle text-success">Open for Internships</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Education Card -->
+                <div class="card border rounded-4 p-4">
+                    <h3 class="h5 fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-mortarboard text-primary"></i> Education
+                    </h3>
+                    {% for edu in education_list %}
+                    <div class="mb-3 {% if not forloop.last %}border-bottom pb-3{% endif %}">
+                        <div class="badge bg-secondary-subtle text-secondary small mb-1">{{ edu.start_year }} — {{ edu.end_year }}</div>
+                        <h4 class="h6 fw-bold mb-1">{{ edu.degree }}</h4>
+                        <div class="text-primary small fw-medium mb-2">{{ edu.institution }}</div>
+                        <p class="text-secondary small mb-0">{{ edu.description }}</p>
+                    </div>
+                    {% empty %}
+                    <div class="text-secondary small">
+                        <h4 class="h6 fw-bold mb-1">Bachelor's in Computer Science / Information Technology</h4>
+                        <div class="text-primary small fw-medium mb-2">St. Xavier's College, Kathmandu</div>
+                        <p class="mb-0">Foundations of computing, data structures, algorithms, databases, and software design.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

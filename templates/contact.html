@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <!-- Page Header -->
+        <div class="mb-5">
+            <span class="badge bg-primary-subtle text-primary mb-2 px-3 py-1">Communication</span>
+            <h1 class="display-5 fw-bold">Get In Touch</h1>
+            <p class="text-secondary lead col-lg-8">
+                Have a project idea, question, internship opportunity, or just want to say hello? Leave a message below.
+            </p>
+        </div>
+
+        <div class="row g-5">
+            <!-- Left: Contact Form -->
+            <div class="col-lg-7">
+                <div class="card border rounded-4 p-4 p-md-5 bg-subtle-section shadow-sm">
+                    <h2 class="h4 fw-bold mb-4">Send a Message</h2>
+
+                    <form method="post" action="{% url 'contact' %}" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Name Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.name.id_for_label }}" class="form-label small fw-semibold">
+                                Your Name <span class="text-danger">*</span>
+                            </label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.name.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label small fw-semibold">
+                                Email Address <span class="text-danger">*</span>
+                            </label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.email.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Subject Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.subject.id_for_label }}" class="form-label small fw-semibold">
+                                Subject <span class="text-danger">*</span>
+                            </label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.subject.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Message Field -->
+                        <div class="mb-4">
+                            <label for="{{ form.message.id_for_label }}" class="form-label small fw-semibold">
+                                Message <span class="text-danger">*</span>
+                            </label>
+                            {{ form.message }}
+                            {% if form.message.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.message.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary-custom px-4 py-2-5 w-100">
+                            <i class="bi bi-send-fill me-2"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right: Contact Information & Professional Links -->
+            <div class="col-lg-5">
+                <div class="d-flex flex-column gap-4">
+                    <!-- Direct Email Card -->
+                    <div class="card border rounded-4 p-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="icon-bubble text-primary">
+                                <i class="bi bi-envelope-fill fs-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="h6 text-secondary text-uppercase mb-1 small">Email Address</h3>
+                                <a href="mailto:{{ site_settings.email|default:'pathakrupesh666@gmail.com' }}" class="text-light fw-bold text-decoration-none">
+                                    {{ site_settings.email|default:'pathakrupesh666@gmail.com' }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location Card -->
+                    <div class="card border rounded-4 p-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="icon-bubble text-primary">
+                                <i class="bi bi-geo-alt-fill fs-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="h6 text-secondary text-uppercase mb-1 small">Current Location</h3>
+                                <span class="text-light fw-bold">
+                                    {{ site_settings.location|default:'Kathmandu, Nepal' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Profiles Card -->
+                    <div class="card border rounded-4 p-4">
+                        <h3 class="h6 text-secondary text-uppercase mb-3 small">Professional Networks</h3>
+                        <div class="d-flex flex-column gap-3">
+                            <a href="{{ site_settings.github_url|default:'https://github.com/' }}" target="_blank" rel="noopener noreferrer" class="d-flex align-items-center justify-content-between p-3 rounded-3 border text-decoration-none text-light hover-accent">
+                                <span class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-github fs-5 text-primary"></i>
+                                    <span class="fw-semibold">GitHub Profile</span>
+                                </span>
+                                <i class="bi bi-arrow-up-right text-secondary"></i>
+                            </a>
+
+                            <a href="{{ site_settings.linkedin_url|default:'https://linkedin.com/' }}" target="_blank" rel="noopener noreferrer" class="d-flex align-items-center justify-content-between p-3 rounded-3 border text-decoration-none text-light hover-accent">
+                                <span class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-linkedin fs-5 text-primary"></i>
+                                    <span class="fw-semibold">LinkedIn Profile</span>
+                                </span>
+                                <i class="bi bi-arrow-up-right text-secondary"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Student Availability Notice -->
+                    <div class="p-4 rounded-4 border bg-subtle-section">
+                        <div class="d-flex align-items-start gap-2">
+                            <span class="status-dot mt-2"></span>
+                            <div>
+                                <h3 class="h6 fw-bold mb-1">Internship &amp; Project Availability</h3>
+                                <p class="text-secondary small mb-0">
+                                    Currently enrolled as a Computer Science student at St. Xavier's College. Open for part-time, remote, or internship opportunities in software engineering and applied AI.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,328 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section py-5 py-lg-6 position-relative overflow-hidden">
+    <div class="container py-lg-4">
+        <div class="row align-items-center gy-5">
+            <!-- Left Hero Content -->
+            <div class="col-lg-7">
+                <div class="hero-badge mb-3 d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill">
+                    <span class="status-dot"></span>
+                    <span class="small fw-semibold text-primary">Open to Internship &amp; Junior Roles</span>
+                </div>
+
+                <h1 class="display-4 fw-extrabold mb-3 lh-sm">
+                    Hi, I'm <span class="text-gradient">{{ site_settings.name|default:"Rupesh Pathak" }}</span>
+                </h1>
+
+                <h2 class="h4 text-primary fw-semibold mb-3">
+                    {{ site_settings.title|default:"Computer Science Student | Aspiring Software & AI Engineer" }}
+                </h2>
+
+                <p class="lead text-secondary mb-4 col-xl-11">
+                    {{ site_settings.short_bio|default:"I'm a Computer Science student interested in software development, data science, and artificial intelligence. I enjoy turning ideas into practical software projects and continuously learning new technologies." }}
+                </p>
+
+                <!-- Call to Action Buttons -->
+                <div class="d-flex flex-wrap gap-3 mb-4">
+                    <a href="{% url 'projects' %}" class="btn btn-primary-custom px-4 py-2-5">
+                        <i class="bi bi-folder2-open me-2"></i> View Projects
+                    </a>
+                    <a href="{% url 'resume' %}" class="btn btn-outline-custom px-4 py-2-5">
+                        <i class="bi bi-file-earmark-arrow-down me-2"></i> Download Resume
+                    </a>
+                </div>
+
+                <!-- Social Links -->
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-secondary small fw-medium">Connect:</span>
+                    <a href="{{ site_settings.github_url|default:'https://github.com/' }}" target="_blank" rel="noopener noreferrer" class="social-link" title="GitHub">
+                        <i class="bi bi-github"></i>
+                    </a>
+                    <a href="{{ site_settings.linkedin_url|default:'https://linkedin.com/' }}" target="_blank" rel="noopener noreferrer" class="social-link" title="LinkedIn">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                    <a href="mailto:{{ site_settings.email|default:'pathakrupesh666@gmail.com' }}" class="social-link" title="Email">
+                        <i class="bi bi-envelope-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Hero Visual: Interactive Code Mockup (No stock photos) -->
+            <div class="col-lg-5">
+                <div class="code-window-card shadow-lg">
+                    <div class="code-window-header d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
+                        <div class="d-flex gap-2">
+                            <span class="mac-dot red"></span>
+                            <span class="mac-dot yellow"></span>
+                            <span class="mac-dot green"></span>
+                        </div>
+                        <span class="text-secondary small font-monospace">developer_profile.py</span>
+                        <span class="badge bg-secondary-subtle text-secondary small">Python 3.10</span>
+                    </div>
+                    <div class="code-window-body p-3 font-monospace small">
+                        <pre class="mb-0"><code><span class="code-keyword">class</span> <span class="code-class">SoftwareEngineer</span>:
+    <span class="code-keyword">def</span> <span class="code-func">__init__</span>(self):
+        self.name = <span class="code-string">"Rupesh Pathak"</span>
+        self.college = <span class="code-string">"St. Xavier's College"</span>
+        self.location = <span class="code-string">"Kathmandu, Nepal"</span>
+        self.focus = [
+            <span class="code-string">"Full-Stack Web (Django)"</span>,
+            <span class="code-string">"Applied AI &amp; ML"</span>,
+            <span class="code-string">"Data Analysis"</span>
+        ]
+
+    <span class="code-keyword">def</span> <span class="code-func">current_mission</span>(self):
+        <span class="code-keyword">return</span> <span class="code-string">"Building robust, clean software!"</span>
+
+engineer = SoftwareEngineer()
+<span class="code-keyword">print</span>(engineer.current_mission())
+<span class="code-comment"># Output: Building robust, clean software!</span></code></pre>
+                    </div>
+                    <div class="code-window-footer px-3 py-2 border-top d-flex justify-content-between align-items-center small text-secondary">
+                        <span><i class="bi bi-git me-1"></i> main branch</span>
+                        <span class="text-success"><i class="bi bi-check2-all me-1"></i> Tests passing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What I'm Interested In Section -->
+<section class="py-5 border-top border-bottom bg-subtle-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary-subtle text-primary mb-2 px-3 py-1">Focus Areas</span>
+            <h2 class="fw-bold">What I'm Interested In</h2>
+            <p class="text-secondary col-lg-6 mx-auto">
+                Exploring fundamental computer science concepts and translating theoretical knowledge into practical solutions.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="interest-card h-100 p-4 rounded-4 border">
+                    <div class="icon-bubble mb-3 text-primary">
+                        <i class="bi bi-laptop fs-3"></i>
+                    </div>
+                    <h4 class="h5 fw-bold mb-2">Software Development</h4>
+                    <p class="text-secondary small mb-0">
+                        Writing clean, maintainable code, implementing object-oriented designs, and building end-to-end software systems with robust architecture.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="interest-card h-100 p-4 rounded-4 border">
+                    <div class="icon-bubble mb-3 text-primary">
+                        <i class="bi bi-graph-up-arrow fs-3"></i>
+                    </div>
+                    <h4 class="h5 fw-bold mb-2">Data Science</h4>
+                    <p class="text-secondary small mb-0">
+                        Extracting insights from raw data using NumPy and Pandas, identifying trends, cleaning messy datasets, and performing exploratory data analysis.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="interest-card h-100 p-4 rounded-4 border">
+                    <div class="icon-bubble mb-3 text-primary">
+                        <i class="bi bi-cpu fs-3"></i>
+                    </div>
+                    <h4 class="h5 fw-bold mb-2">Artificial Intelligence</h4>
+                    <p class="text-secondary small mb-0">
+                        Investigating intelligent agents, neural architectures, and how modern AI models can automate complex tasks and augment human problem-solving.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6">
+                <div class="interest-card h-100 p-4 rounded-4 border">
+                    <div class="icon-bubble mb-3 text-primary">
+                        <i class="bi bi-diagram-3 fs-3"></i>
+                    </div>
+                    <h4 class="h5 fw-bold mb-2">Machine Learning</h4>
+                    <p class="text-secondary small mb-0">
+                        Studying predictive modeling, supervised and unsupervised learning algorithms, feature engineering, and model evaluation techniques.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6">
+                <div class="interest-card h-100 p-4 rounded-4 border">
+                    <div class="icon-bubble mb-3 text-primary">
+                        <i class="bi bi-globe2 fs-3"></i>
+                    </div>
+                    <h4 class="h5 fw-bold mb-2">Web Development</h4>
+                    <p class="text-secondary small mb-0">
+                        Designing responsive web interfaces with Bootstrap, building scalable backend APIs with Django, and structuring secure relational database schemas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
+            <div>
+                <span class="badge bg-primary-subtle text-primary mb-2 px-3 py-1">Portfolio Highlights</span>
+                <h2 class="fw-bold mb-0">Featured Projects</h2>
+            </div>
+            <a href="{% url 'projects' %}" class="btn btn-outline-custom btn-sm mt-2 mt-md-0">
+                View All Projects <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+        </div>
+
+        <div class="row g-4">
+            {% for project in featured_projects %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card project-card h-100 border rounded-4 overflow-hidden">
+                    <!-- Project Visual Placeholder -->
+                    <div class="project-card-image position-relative">
+                        <div class="project-image-placeholder d-flex align-items-center justify-content-center p-4">
+                            <i class="bi {% if project.category == 'Web' %}bi-browser-edge{% elif project.category == 'AI' %}bi-cpu{% elif project.category == 'Data' %}bi-bar-chart-steps{% else %}bi-terminal{% endif %} fs-1 text-primary opacity-75"></i>
+                        </div>
+                        <span class="badge bg-dark-subtle border border-secondary-subtle text-light position-absolute top-0 end-0 m-3">
+                            {{ project.get_category_display }}
+                        </span>
+                    </div>
+
+                    <div class="card-body d-flex flex-column p-4">
+                        <h3 class="h5 fw-bold card-title mb-2">{{ project.title }}</h3>
+                        <p class="card-text text-secondary small mb-3 flex-grow-1">
+                            {{ project.short_description }}
+                        </p>
+
+                        <!-- Technology Badges -->
+                        <div class="d-flex flex-wrap gap-1 mb-4">
+                            {% for tech in project.tech_list %}
+                                <span class="badge bg-secondary-subtle text-secondary small">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Card Action Buttons -->
+                        <div class="d-flex align-items-center justify-content-between pt-3 border-top">
+                            <a href="{% url 'project_detail' project.slug %}" class="btn btn-sm btn-primary-custom">
+                                View Details <i class="bi bi-arrow-up-right ms-1"></i>
+                            </a>
+                            <div class="d-flex gap-2">
+                                {% if project.github_url %}
+                                <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-custom" title="GitHub Repository">
+                                    <i class="bi bi-github"></i>
+                                </a>
+                                {% endif %}
+                                {% if project.live_url %}
+                                <a href="{{ project.live_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-custom" title="Live Demo">
+                                    <i class="bi bi-box-arrow-up-right"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p class="text-secondary">No featured projects yet. Run <code>python manage.py seed_data</code> to populate sample data.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Education & Currently Learning Snapshot -->
+<section class="py-5 border-top bg-subtle-section">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Left: Education -->
+            <div class="col-lg-6">
+                <span class="badge bg-primary-subtle text-primary mb-2 px-3 py-1">Academics</span>
+                <h2 class="fw-bold mb-4">Education</h2>
+                <div class="timeline">
+                    {% for edu in education_items %}
+                    <div class="timeline-item pb-4 border-start border-2 border-primary ps-4 position-relative">
+                        <span class="timeline-dot"></span>
+                        <div class="badge bg-secondary-subtle text-secondary mb-1">{{ edu.start_year }} — {{ edu.end_year }}</div>
+                        <h4 class="h5 fw-bold mb-1">{{ edu.degree }}</h4>
+                        <p class="text-primary fw-medium small mb-2"><i class="bi bi-building me-1"></i> {{ edu.institution }} • {{ edu.location }}</p>
+                        <p class="text-secondary small mb-0">{{ edu.description }}</p>
+                    </div>
+                    {% empty %}
+                    <div class="timeline-item pb-4 border-start border-2 border-primary ps-4 position-relative">
+                        <span class="timeline-dot"></span>
+                        <div class="badge bg-secondary-subtle text-secondary mb-1">2022 — Present</div>
+                        <h4 class="h5 fw-bold mb-1">Bachelor's in Computer Science / Information Technology</h4>
+                        <p class="text-primary fw-medium small mb-2"><i class="bi bi-building me-1"></i> St. Xavier's College, Kathmandu</p>
+                        <p class="text-secondary small mb-0">Focusing on core computer science foundations, algorithms, object-oriented software engineering, database management systems, and applied machine learning.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Right: Currently Learning -->
+            <div class="col-lg-6">
+                <span class="badge bg-primary-subtle text-primary mb-2 px-3 py-1">Growth Mindset</span>
+                <h2 class="fw-bold mb-4">Currently Learning</h2>
+                <div class="row g-3">
+                    {% for item in learning_topics %}
+                    <div class="col-sm-6">
+                        <div class="p-3 border rounded-3 h-100 card-dark-inner">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="bi {{ item.icon }} text-primary fs-5"></i>
+                                <h4 class="h6 fw-bold mb-0">{{ item.title }}</h4>
+                            </div>
+                            <p class="text-secondary small mb-0">{{ item.description }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-sm-6">
+                        <div class="p-3 border rounded-3 h-100 card-dark-inner">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="bi bi-cpu text-primary fs-5"></i>
+                                <h4 class="h6 fw-bold mb-0">Machine Learning</h4>
+                            </div>
+                            <p class="text-secondary small mb-0">Studying supervised &amp; unsupervised learning workflows, cost functions, and evaluation metrics.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3 border rounded-3 h-100 card-dark-inner">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="bi bi-diagram-3 text-primary fs-5"></i>
+                                <h4 class="h6 fw-bold mb-0">Django REST APIs</h4>
+                            </div>
+                            <p class="text-secondary small mb-0">Building decoupled web services with Django REST Framework and token authentication.</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Banner -->
+<section class="py-5 text-center">
+    <div class="container">
+        <div class="p-5 rounded-4 border bg-subtle-section position-relative overflow-hidden">
+            <h2 class="fw-bold mb-3">Interested in collaborating or discussing an opportunity?</h2>
+            <p class="text-secondary col-lg-7 mx-auto mb-4">
+                Whether you're looking for an eager intern, a software engineering contributor, or want to discuss a project, my inbox is always open.
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="{% url 'contact' %}" class="btn btn-primary-custom px-4 py-2-5">
+                    <i class="bi bi-envelope me-2"></i> Send a Message
+                </a>
+                <a href="{% url 'resume' %}" class="btn btn-outline-custom px-4 py-2-5">
+                    <i class="bi bi-file-earmark-person me-2"></i> View Resume
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
