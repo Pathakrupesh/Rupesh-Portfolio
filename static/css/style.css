@@ -1,6 +1,4 @@
-/* ==========================================================================
-   Rupesh Portfolio — Modern Dark + Professional Stylesheet
-   ========================================================================== */
+
 
 :root {
     --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -21,11 +19,13 @@
     --bg-subtle: #0d1527;
     --border-color: #1e293b;
     --border-hover: #334155;
+    /* FIX 1: Changed from dark gray (#62666a) to crisp readable text (#f1f5f9) */
     --text-main: #f1f5f9;
     --text-muted: #94a3b8;
     --text-subtle: #64748b;
     --code-bg: #090d16;
     --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+    --quick-fact-val: #f8fafc;
 }
 
 /* Light Theme Variables */
@@ -34,6 +34,7 @@
     --bg-surface: #ffffff;
     --bg-card: #ffffff;
     --bg-subtle: #f1f5f9;
+    /* FIX 2: Changed from overly harsh black border (#252b32) to clean subtle border (#e2e8f0) */
     --border-color: #e2e8f0;
     --border-hover: #cbd5e1;
     --text-main: #0f172a;
@@ -41,6 +42,7 @@
     --text-subtle: #64748b;
     --code-bg: #1e293b;
     --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+    --quick-fact-val: #0f172a;
 }
 
 body {
@@ -121,6 +123,7 @@ body {
     border-radius: 10px;
     transition: all 0.2s ease;
     box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
+    cursor: pointer;
 }
 
 .btn-primary-custom:hover {
@@ -137,6 +140,7 @@ body {
     font-weight: 500;
     border-radius: 10px;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .btn-outline-custom:hover {
@@ -154,6 +158,16 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 10px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
 }
 
 /* Hero Section */
@@ -262,6 +276,96 @@ body {
     height: 40px;
 }
 
+/* ==========================================================================
+   QUICK FACTS FIX — High Contrast in Both Themes
+   ========================================================================== */
+.quick-facts-card {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color);
+}
+
+.quick-facts-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.quick-fact-row,
+.quick-fact-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.quick-fact-row:first-child,
+.quick-fact-item:first-child {
+    padding-top: 0.25rem;
+}
+
+.quick-fact-row:last-child,
+.quick-fact-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0.25rem;
+}
+
+.quick-fact-label,
+.quick-facts-label {
+    color: var(--text-muted) !important;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Value text color - dynamically maps to theme text-main */
+.quick-fact-value,
+.quick-facts-value,
+.quick-fact-val {
+    color: var(--text-main) !important;
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-align: right;
+}
+
+/* Dark mode explicit contrast */
+[data-bs-theme="dark"] .quick-fact-value,
+[data-bs-theme="dark"] .quick-facts-value {
+    color: #f8fafc !important;
+}
+
+/* Light mode protection: If Bootstrap .text-white or .text-light was hardcoded in HTML */
+[data-bs-theme="light"] .quick-fact-value,
+[data-bs-theme="light"] .quick-facts-value,
+[data-bs-theme="light"] .quick-facts-card .text-white,
+[data-bs-theme="light"] .quick-facts-card .text-light,
+[data-bs-theme="light"] .about-card .text-white,
+[data-bs-theme="light"] .about-card .text-light,
+[data-bs-theme="light"] .card .quick-fact-value,
+[data-bs-theme="light"] .quick-fact-row .text-white,
+[data-bs-theme="light"] .quick-fact-item .text-white {
+    color: var(--text-main) !important;
+}
+
+/* Availability Status Badge */
+.badge-availability {
+    background-color: rgba(34, 197, 94, 0.12);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    letter-spacing: 0.01em;
+}
+
+[data-bs-theme="light"] .badge-availability {
+    background-color: rgba(22, 163, 74, 0.1);
+    color: #15803d;
+    border-color: rgba(22, 163, 74, 0.25);
+}
+
 /* Timeline */
 .timeline-dot {
     position: absolute;
@@ -284,6 +388,7 @@ body {
     font-size: 0.9rem;
     font-weight: 500;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .btn-filter:hover {
@@ -315,11 +420,13 @@ body {
     border-radius: 10px;
     padding: 0.75rem 1rem;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
 }
 
 .form-control:focus {
     border-color: var(--color-primary) !important;
     box-shadow: 0 0 0 3px var(--color-primary-glow) !important;
+    outline: none;
 }
 
 /* Footer */
