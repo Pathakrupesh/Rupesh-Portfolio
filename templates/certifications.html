@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <!-- Page Header -->
+        <div class="mb-5">
+            <span class="badge bg-primary-subtle text-primary mb-2 px-3 py-1">Verified &amp; Academic Learning</span>
+            <h1 class="display-5 fw-bold">Certifications &amp; Credentials</h1>
+            <p class="text-secondary lead col-lg-8">
+                Academic certificates, online specializations, and professional development milestones in computer science and AI.
+            </p>
+        </div>
+
+        <!-- Certifications Grid -->
+        <div class="row g-4">
+            {% for cert in certifications %}
+            <div class="col-md-6">
+                <div class="card h-100 border rounded-4 p-4 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="icon-bubble text-primary">
+                                    <i class="bi bi-patch-check-fill fs-4"></i>
+                                </div>
+                                <div>
+                                    <span class="text-primary small fw-semibold text-uppercase letter-spacing">{{ cert.organization }}</span>
+                                    <h2 class="h5 fw-bold mb-0 text-light mt-1">{{ cert.name }}</h2>
+                                </div>
+                            </div>
+                            {% if cert.is_sample %}
+                            <span class="badge bg-warning-subtle text-warning small">Example Entry</span>
+                            {% else %}
+                            <span class="badge bg-success-subtle text-success small">Verified</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="text-secondary small mb-3">
+                            <i class="bi bi-calendar3 me-1 text-primary"></i> Issued / Completion: <strong class="text-light">{{ cert.issue_date }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="border-top pt-3 mt-4 d-flex justify-content-between align-items-center">
+                        {% if cert.credential_url %}
+                        <a href="{{ cert.credential_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-custom">
+                            Verify Credential <i class="bi bi-box-arrow-up-right ms-1"></i>
+                        </a>
+                        {% else %}
+                        <span class="text-secondary small fst-italic">Credential on file</span>
+                        {% endif %}
+
+                        {% if cert.certificate_file %}
+                        <a href="{{ cert.certificate_file.url }}" target="_blank" class="btn btn-sm btn-primary-custom">
+                            <i class="bi bi-file-earmark-pdf me-1"></i> View Certificate
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="p-5 border rounded-4 bg-subtle-section">
+                    <i class="bi bi-patch-question fs-1 text-secondary mb-3 d-block"></i>
+                    <h3 class="h5 fw-bold">No Certifications Listed Yet</h3>
+                    <p class="text-secondary small mb-3">You can add your real certificates anytime through the Django Admin panel.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Dynamic Management Info Card -->
+        <div class="mt-5 p-4 rounded-4 border bg-subtle-section d-flex align-items-start gap-3">
+            <i class="bi bi-info-circle text-primary fs-4 mt-1"></i>
+            <div>
+                <h3 class="h6 fw-bold mb-1">Dynamic Certificate Management in Django Admin</h3>
+                <p class="text-secondary small mb-0">
+                    Certificates are stored in the database via the <code>Certification</code> model. You can log into the <strong>Django Admin (<code>/admin/</code>)</strong> to create, edit, upload PDF certificates, or remove entries anytime without modifying HTML code.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
