@@ -11,6 +11,11 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+# ============================================================
+# ENVIRONMENT VARIABLES
+# ============================================================
+
 # Load environment variables from .env if python-dotenv is available
 try:
     from dotenv import load_dotenv
@@ -18,24 +23,69 @@ try:
 except ImportError:
     pass
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv(
-    'SECRET_KEY',
-    'django-insecure-rupesh-portfolio-dev-key-change-in-production-1029384756'
+# ============================================================
+# SECURITY
+# ============================================================
+
+# SECRET_KEY must be provided through an environment variable.
+# Do NOT put your real production secret key directly in this file.
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+# DEBUG:
+# Local development  -> DEBUG=True
+# Production          -> DEBUG=False
+DEBUG = os.getenv(
+    'DEBUG',
+    'True'
+).strip().lower() in ('true', '1', 'yes')
+
+
+# Allowed hosts
+ALLOWED_HOSTS_STR = os.getenv(
+    'ALLOWED_HOSTS',
+    '127.0.0.1,localhost'
 )
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'True').strip().lower() in ('true', '1', 'yes')
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in ALLOWED_HOSTS_STR.split(',')
+    if host.strip()
+]
 
-ALLOWED_HOSTS_STR = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost')
-ALLOWED_HOSTS = [h.strip() for h in ALLOWED_HOSTS_STR.split(',') if h.strip()]
 if not ALLOWED_HOSTS:
-    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+    ALLOWED_HOSTS = [
+        '127.0.0.1',
+        'localhost'
+    ]
 
-# Application definition
+
+# HTTPS / Cookie security
+#
+# These are controlled through environment variables so that
+# local HTTP development continues to work normally.
+#
+# Production values will be enabled on the hosting server.
+
+SECURE_SSL_REDIRECT = os.getenv(
+    'SECURE_SSL_REDIRECT',
+    'False'
+).strip().lower() in ('true', '1', 'yes')
+
+SESSION_COOKIE_SECURE = os.getenv(
+    'SESSION_COOKIE_SECURE',
+    'False'
+).strip().lower() in ('true', '1', 'yes')
+
+CSRF_COOKIE_SECURE = os.getenv(
+    'CSRF_COOKIE_SECURE',
+    'False'
+).strip().lower() in ('true', '1', 'yes')
+
+
+# ============================================================
+# APPLICATION DEFINITION
+# ============================================================
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -49,8 +99,15 @@ INSTALLED_APPS = [
     'portfolio',
 ]
 
+
+# ============================================================
+# MIDDLEWARE
+# ============================================================
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -59,7 +116,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# ============================================================
+# URL / WSGI CONFIGURATION
+# ============================================================
+
 ROOT_URLCONF = 'config.urls'
+
+WSGI_APPLICATION = 'config.wsgi.application'
+
+
+# ============================================================
+# TEMPLATES
+# ============================================================
 
 TEMPLATES = [
     {
@@ -72,25 +140,32 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media',
-                # Custom context processor for global site branding & settings
                 'portfolio.context_processors.portfolio_globals',
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+# ============================================================
+# DATABASE
+# ============================================================
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-# Default to SQLite for seamless zero-config local run; supports PostgreSQL via DATABASE_URL
+# Supports:
+#
+# Local development:
+#     SQLite
+#
+# Production:
+#     PostgreSQL using DATABASE_URL
+#
 
 DATABASE_URL = os.getenv('DATABASE_URL', '')
 
 if DATABASE_URL:
+
     try:
         import dj_database_url
+
         DATABASES = {
             'default': dj_database_url.config(
                 default=DATABASE_URL,
@@ -98,15 +173,20 @@ if DATABASE_URL:
                 conn_health_checks=True,
             )
         }
+
     except ImportError:
-        # Fallback if dj_database_url not installed
+
+        # Fallback to SQLite if dj-database-url
+        # is not installed.
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',
                 'NAME': BASE_DIR / 'db.sqlite3',
             }
         }
+
 else:
+
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -114,26 +194,38 @@ else:
         }
     }
 
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
+
+# ============================================================
+# PASSWORD VALIDATION
+# ============================================================
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.'
+            'UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.'
+            'MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.'
+            'CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.'
+            'NumericPasswordValidator',
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
+
+# ============================================================
+# INTERNATIONALIZATION
+# ============================================================
 
 LANGUAGE_CODE = 'en-us'
 
@@ -143,26 +235,49 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
+
+# ============================================================
+# STATIC FILES
+# ============================================================
 
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Media files (User uploads: project screenshots, resume, profile photo)
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# ============================================================
+# MEDIA FILES
+# ============================================================
+
+# User uploads:
+# - project screenshots
+# - resume
+# - profile photo
+
 MEDIA_URL = '/media/'
+
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+
+# ============================================================
+# DEFAULT PRIMARY KEY
+# ============================================================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Django Messages Framework — Map tags to Bootstrap 5 alert classes
+
+# ============================================================
+# DJANGO MESSAGES FRAMEWORK
+# ============================================================
+
+# Map Django message tags to Bootstrap 5 alert classes.
+
 from django.contrib.messages import constants as messages
+
 MESSAGE_TAGS = {
     messages.DEBUG: 'secondary',
     messages.INFO: 'info',
