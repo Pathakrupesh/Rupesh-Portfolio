@@ -47,17 +47,16 @@ ALLOWED_HOSTS_STR = os.getenv(
     '127.0.0.1,localhost'
 )
 
+ALLOWED_HOSTS_STR = os.getenv(
+    'ALLOWED_HOSTS',
+    '127.0.0.1,localhost'
+)
+
 ALLOWED_HOSTS = [
     host.strip()
     for host in ALLOWED_HOSTS_STR.split(',')
     if host.strip()
 ]
-
-if not ALLOWED_HOSTS:
-    ALLOWED_HOSTS = [
-        '127.0.0.1',
-        'localhost'
-    ]
 
 
 # HTTPS / Cookie security
